@@ -9,6 +9,7 @@ Fiz um front para testar as rotas
 
 ### Cadastrar
 ![cadastrar](cadastrar.png)
+![cadastrar](cadastrar2.png)
 
 ### Listar
 ![listar](listar.png)

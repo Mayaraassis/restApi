@@ -1,30 +1,16 @@
 require('dotenv').config()
 const express = require('express')
-const mongoose = require('mongoose')
+const cors = require('cors')
+const PersonRoutes = require('./src/routes/personRoutes')
+
+const PORT = process.env.PORT || 8000
 const app = express()
 
-app.use(
-    express.urlencoded({
-        extended: true
-    })
-)
-var cors = require('cors')
-app.use(cors()) 
-
+app.use(cors())
 app.use(express.json())
-const personRoutes = require('./routes/personRoutes')
-app.use('/person', personRoutes)
 
-app.get('/', (req, res ) => {
+app.use(PersonRoutes)
 
-    res.json({message: 'Express'})
+app.listen(PORT, () => {
+  console.log(`Servidor está rodando na porta ${PORT}`)
 })
-
-const DB_USER = process.env.DB_USER
-const DB_PASSWORD = process.env.DB_PASSWORD
-mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@apicluster.0c9oxqg.mongodb.net/?retryWrites=true&w=majority&appName=APICluster`)
-.then( () => {
-    console.log('Server has started!')
-    app.listen(3000)
-})
-.catch((err) => console.log(err))

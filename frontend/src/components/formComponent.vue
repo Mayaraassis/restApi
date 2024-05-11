@@ -20,6 +20,7 @@
       <div class="form-group">
         <button type="submit" class="btn-submit">Cadastrar</button>
       </div>
+    <div v-if="showNotification" class="notification">Cadastro realizado com sucesso!</div>
     </form>
   </div>
 </template>
@@ -34,18 +35,26 @@ export default {
         name: '',
         age: null,
         gender: ''
-      }
+      },
+      showNotification: false
     }
   },
   methods: {
     submitForm(){
-      axios.post('http://localhost:3000/person', this.formData)
+      axios.post('http://localhost:8000/person', this.formData)
       .then(response => {
         console.log(response.data)
+        this.showNotification = true;
+        this.clearForm()
       })
       .catch(error => {
         console.error(error)
       })
+    },
+     clearForm() {
+      this.formData.name = '';
+      this.formData.age = null;
+      this.formData.gender = '';
     }
   }
 };
@@ -91,5 +100,12 @@ select {
 
 .btn-submit:hover {
   background-color: #45a049;
+}
+.notification {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-top: 10px;
 }
 </style>

@@ -64,19 +64,18 @@ export default {
     editPerson(id) {
       this.editingIndex = this.lista.findIndex((item) => item._id === id);
       this.editedPerson = { ...this.lista[this.editingIndex] };
-      this.show = true;
     },
-    async savePerson(index) {
-      await axios
+ savePerson(index) {
+      console.log(this.editedPerson)
+      axios
         .patch(
-          `http://localhost:3000/person/${this.lista[index]._id}`,
+          `http://localhost:8000/person/${this.lista[index]._id}`,
           this.editedPerson
         )
         .then((response) => {
-          console.log(response.data);
-          // Atualiza a lista com os dados atualizados
-          this.lista[index] = response.data;
-          // Limpa os campos de edição e o índice de edição
+          // this.lista[index] = response.data;
+          console.log(response.data)
+          this.lista[index] = this.editedPerson;
           this.editedPerson = { name: "", age: null, gender: "" };
           this.editingIndex = -1;
         })
@@ -87,7 +86,7 @@ export default {
 
     async deletePerson(id){
         if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
-            await axios.delete(`http://localhost:3000/person/${id}`)
+            await axios.delete(`http://localhost:8000/person/${id}`)
                     .then(response => {
                         console.log(response.data);
                         this.lista = this.lista.filter(item => item._id !== id);
@@ -99,7 +98,7 @@ export default {
     }
   },
   async mounted() {
-    await axios.get("http://localhost:3000/person").then((response) => {
+    await axios.get("http://localhost:8000/person").then((response) => {
       this.lista = response.data;
     });
   },
